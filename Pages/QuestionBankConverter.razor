@@ -1,0 +1,39 @@
+@page "/qbc"
+@inherits ComponentBase
+@using Tools.Models;
+
+<h1>题库转换</h1>
+
+<table class="table">
+    <tr>
+
+        <th>源题库选择</th>
+        <th>
+            <select name="SelectSource" @onchange="SelectSource_OnChange">
+                <option value="">选择题库类型</option>
+                <option value="0">网络大学</option>
+                <option value="1">磨题帮</option>
+            </select>
+        </th>
+    </tr>
+    <tr>
+        <th>目标题库选择</th>
+        <th>
+            <select name="SelectTarget" @onchange="SelectTarget_OnChange">
+                <option value="">选择题库类型</option>
+                <option value="0">网络大学</option>
+                <option value="1">磨题帮</option>
+            </select>
+        </th>
+    </tr>
+    <tr>
+        <th>选择文件</th>
+        <th><InputFile OnChange="@LoadFiles" multiple /></th>
+    </tr>
+    <tr>
+        <th>Total:</th>
+        <th>@tmp</th>
+    </tr>
+</table>
+
+<button class="btn btn-primary" @onclick="Process">开始转换</button>

@@ -1,10 +1,13 @@
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.Extensions.Logging;
+using Tools.Models;
 
 namespace Tools.Pages {
     public class UploadResult {
@@ -16,12 +19,20 @@ namespace Tools.Pages {
 
         public int ErrorCode { get; set; }
     }
-    public partial class W2M : ComponentBase {
+    public partial class QuestionBankConverter : ComponentBase {
         private string tmp { get; set; }
         private IList<File> files = new List<File>();
         private IList<UploadResult> uploadResults = new List<UploadResult>();
         private int maxAllowedFiles = 3;
         private bool shouldRender;
+        private W2MModel model = new W2MModel();
+        private QuestionBank SourceType { get; set; }
+        private QuestionBank TargetType { get; set; }
+        private List<byte[]> InputFiles { get; set; }
+
+        public QuestionBankConverter() : base() {
+            InputFiles = new List<byte[]>();
+        }
 
         protected override bool ShouldRender() => shouldRender;
 
@@ -75,7 +86,7 @@ namespace Tools.Pages {
         }
 
         private static bool FileUpload(IList<UploadResult> uploadResults,
-            string fileName, ILogger<W2M> logger, out UploadResult result) {
+            string fileName, ILogger<QuestionBankConverter> logger, out UploadResult result) {
             if (uploadResults is null) {
                 throw new System.ArgumentNullException(nameof(uploadResults));
             }
@@ -99,8 +110,61 @@ namespace Tools.Pages {
             return result.Uploaded;
         }
 
+        async Task LoadFiles(InputFileChangeEventArgs e) {
+            var isLoading = true;
+            var exceptionMessage = string.Empty;
+
+            try {
+                foreach (var file in e.GetMultipleFiles(maxAllowedFiles)) {
+                    //using var reader =
+                    //    new StreamReader(file.OpenReadStream());
+                    using (var stream = new MemoryStream()) {
+                        await file.OpenReadStream().CopyToAsync(stream);
+                        stream.Position = 0;
+                        InputFiles.Add(stream.ToArray());
+                    }
+
+                    //loadedFiles.Add(file, await reader.ReadToEndAsync());
+                }
+            } catch (Exception ex) {
+                exceptionMessage = ex.Message;
+            }
+
+            isLoading = false;
+        }
+
+        private void SelectSource_OnChange(ChangeEventArgs e) {
+            var value = e.Value.ToString();
+            if (string.IsNullOrEmpty(value)) {
+                return;
+            }
+            int number;
+            if (int.TryParse(value, out number)) {
+                SourceType = (QuestionBank)number;
+            }
+        }
+
+        private void SelectTarget_OnChange(ChangeEventArgs e) {
+            var value = e.Value.ToString();
+            if (string.IsNullOrEmpty(value)) {
+                return;
+            }
+            int number;
+            if (int.TryParse(value, out number)) {
+                TargetType = (QuestionBank)number;
+            }
+        }
+
+        private void Process() {
+
+        }
+
         private class File {
             public string Name { get; set; }
+        }
+
+        class W2MModel {
+            public QuestionBank questionBank { get; set; }
         }
     }
 }
