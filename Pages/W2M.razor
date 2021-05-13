@@ -1,0 +1,25 @@
+@page "/w2m"
+@inherits ComponentBase
+
+<h1>网络大学题库转磨题帮题库</h1>
+
+<table class="table">
+    <tr>
+        <th>Initial Principal</th>
+        <th><input @bind="Principal" /></th>
+    </tr>
+    <tr>
+        <th>Years</th>
+        <th><input @bind="Years" /></th>
+    </tr>
+    <tr>
+        <th>Annual Interest Rate (%)</th>
+        <th><input @bind="InterestRate" /></th>
+    </tr>
+    <tr>
+        <th>Total:</th>
+        <th>@Total</th>
+    </tr>
+</table>
+
+<button class="btn btn-primary" @onclick="Calculate">Calculate</button>
