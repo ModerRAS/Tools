@@ -2,7 +2,7 @@
 using System;
 using Microsoft.AspNetCore.Components;
 
-namespace CICalc.Pages
+namespace Tools.Pages
 {
     public partial class CompoundInterest : ComponentBase
     {

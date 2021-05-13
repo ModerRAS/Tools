@@ -6,20 +6,20 @@
 <table class="table">
     <tr>
         <th>Initial Principal</th>
-        <th><input @bind="Principal" /></th>
+        <th><input @bind="tmp" /></th>
     </tr>
     <tr>
         <th>Years</th>
-        <th><input @bind="Years" /></th>
+        <th><input @bind="tmp" /></th>
     </tr>
     <tr>
         <th>Annual Interest Rate (%)</th>
-        <th><input @bind="InterestRate" /></th>
+        <th><input @bind="tmp" /></th>
     </tr>
     <tr>
         <th>Total:</th>
-        <th>@Total</th>
+        <th>@tmp</th>
     </tr>
 </table>
 
-<button class="btn btn-primary" @onclick="Calculate">Calculate</button>
+<button class="btn btn-primary">Calculate</button>

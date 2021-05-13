@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.Extensions.Logging;
 
-namespace CICalc.Pages {
+namespace Tools.Pages {
     public class UploadResult {
         public bool Uploaded { get; set; }
 
@@ -17,6 +17,7 @@ namespace CICalc.Pages {
         public int ErrorCode { get; set; }
     }
     public partial class W2M : ComponentBase {
+        private string tmp { get; set; }
         private IList<File> files = new List<File>();
         private IList<UploadResult> uploadResults = new List<UploadResult>();
         private int maxAllowedFiles = 3;
